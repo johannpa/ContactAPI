@@ -39,5 +39,12 @@ namespace ContactAPI.Controllers
 
             return Ok(contact);
         }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> UpdateContact([FromRoute] Guid id, UpdateContactRequest updateContactRequest)
+        {
+
+        }
     }
 }
