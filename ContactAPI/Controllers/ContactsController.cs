@@ -1,5 +1,7 @@
 ﻿using ContactAPI.Data;
+using ContactAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContactAPI.Controllers
 {
@@ -15,9 +17,27 @@ namespace ContactAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetContacts()
+        public async Task<IActionResult> GetContacts()
         {
-            return Ok(_context.Contacts.ToList());
+            return Ok(await _context.Contacts.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContact(AddContactRequest addContactRequest)
+        {
+            var contact = new Contact()
+            {
+                Id = Guid.NewGuid(),
+                Address = addContactRequest.Address,
+                Email = addContactRequest.Email,
+                FullName = addContactRequest.FullName,
+                Phone = addContactRequest.Phone
+            };
+
+            await _context.Contacts.AddAsync(contact);
+            await _context.SaveChangesAsync();
+
+            return Ok(contact);
         }
     }
 }
