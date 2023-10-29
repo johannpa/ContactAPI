@@ -74,7 +74,7 @@ namespace ContactAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("id:guid")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> DeleteContact([FromRoute] Guid id)
         {
             var contact = await _context.Contacts.FindAsync(id);
